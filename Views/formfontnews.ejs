@@ -1,0 +1,33 @@
+<% include indexfrontend.ejs %>
+
+<div class="pad">
+
+    <section id="articles">
+
+        <h1>  News</h1>
+
+        <% news.forEach(function(article) { %>
+        <article class="module">
+            <div class="inside-module">
+                <div class="bar-full">
+                    <span class="bar"></span>
+                    <div class="bar-box">
+                        <span class="bar-flip"><%=news.titre;%></span>
+                    </div>
+                </div>
+
+                <div class="pad">
+                    <P><%=news.actualite;%> </P>
+                    <p><%=article.chapeau;%> </p>
+
+                </div>
+
+            </div>
+        </article>
+        <%}); %>
+    </section>
+</div>
+
+
+</body>
+</html>

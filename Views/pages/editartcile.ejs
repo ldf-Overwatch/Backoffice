@@ -1,0 +1,74 @@
+<% include index.ejs %>
+<div class="container">
+    <form action="/admin/formUpdate" method="post">
+        <div class="col-md-9">
+            <div class="form-area">
+                <form role="form">
+                    <br style="clear:both">
+                    <h3 style="margin-bottom: 25px; text-align: center;">Article</h3>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="name" name="titre" value="<%=article.titre %>"
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="email" name="auteur" value="<%=article.auteur %>">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="mobile" name="chapeau" value="<%=article.chapeau %>">
+                    </div>
+                    <input type="hidden" value="<%=article.id%>" name="article_id">
+                    <input type="hidden"  name="description1" required>
+                    <div id="editor-container">
+                        <%-article.description1 %>
+                    </div>
+
+                    <div>
+                        <input type="submit" value="Submit" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </form>
+
+
+
+</div>
+
+<script>
+
+    var quill = new Quill('#editor-container', {
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                ['image', 'code-block']
+            ]
+        },
+        placeholder: 'Compose an epic...',
+        theme: 'snow'  // or 'bubble'
+    });
+
+    var form = document.querySelector('form');
+    form.onsubmit = function() {
+        // Populate hidden form on submit
+        var description1 = document.querySelector('input[name=description1]');
+        description1.value = quill.container.firstChild.innerHTML;
+
+        $.ajax({
+            type: 'POST',
+            url: '/admin/formUpdate',
+            data: $(form).serializeArray(),
+            success: success
+        });
+
+        //console.log("Submitted", $(form).serialize(), $(form).serializeArray());
+
+        // No back end to actually submit to!
+        //alert('Open the console to see the submit data!')
+        return false;
+    };
+
+
+
+</script>
+</body>
+</html>

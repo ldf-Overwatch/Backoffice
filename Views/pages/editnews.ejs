@@ -1,0 +1,66 @@
+<% include index.ejs %>
+<div class="container">
+    <form action="/admin/formUpdatenews" method="post">
+        <div class="col-md-9">
+            <div class="form-area">
+                <form role="form">
+                    <br style="clear:both">
+                    <h3 style="margin-bottom: 25px; text-align: center;">Article</h3>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="name" name="titre" value="<%=news.titre %>"
+                    </div>
+                    <input type="hidden"  name="actualite" required>
+                    <div id="editor-container">
+                        <%-news.actualite %>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" class="form-control" id="mobile" name="datecreation" value="<%=news.datecreation%>">
+                    </div>
+                    <input type="hidden" value="<%=news.id%>" name="news_id">
+
+                        <input type="submit" value="Submit" />
+                </form>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    var quill = new Quill('#editor-container', {
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                ['image', 'code-block']
+            ]
+        },
+        placeholder: 'Compose an epic...',
+        theme: 'snow'  // or 'bubble'
+    });
+
+    var form = document.querySelector('form');
+    form.onsubmit = function() {
+        // Populate hidden form on submit
+        var actualite = document.querySelector('input[name=actualite]');
+        actualite.value = quill.container.firstChild.innerHTML;
+
+        $.ajax({
+            type: 'POST',
+            url: '/admin/formUpdate',
+            data: $(form).serializeArray(),
+            success: success
+        });
+
+        //console.log("Submitted", $(form).serialize(), $(form).serializeArray());
+
+        // No back end to actually submit to!
+        //alert('Open the console to see the submit data!')
+        return false;
+    };
+
+
+
+</script>
+</body>
+</html>
