@@ -6,6 +6,8 @@ let ejs = require('ejs');
 let app = express();
 let bodyParser = require('body-parser');
 const passport = require('passport');
+const pdf = require('express-pdf');
+
 
 app.set('trust proxy', 1); // trust first proxy
 
@@ -31,6 +33,7 @@ passport.deserializeUser(function(id, cb) { //decoder le user id et faire un fin
 
 
 app.use(bodyParser.urlencoded({ extended: true })); // change les fichier
+app.use(pdf);
 
 load('db')
     .then('models')
@@ -40,6 +43,8 @@ load('db')
 load('controllers')
     .then('routes')
     .into(app);
+
+
 
 app.set('view engine', 'ejs' );
 

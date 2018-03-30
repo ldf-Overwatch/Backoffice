@@ -1,7 +1,6 @@
 let mongoose = require('mongoose');
-
 //article
-
+let PDF = require('../lib/pdf.js');
 //ajouter
 
 exports.add = function(req, res ) {
@@ -134,9 +133,39 @@ exports.findAll=function (req, res) {
 
         if (err) console.log(err);
 
-        return res.render('pages/formfont.ejs', {articles : articles});
+        return res.render('pages/formfont.ejs', {articles: articles});
 
     });
+};
+
+exports.findId = function(req, res)
+{
+  let id = req.params.id;
+
+  _db.Article.findById(id).exec(function(err, doc){
+
+      if(doc)
+      {
+          let renderer = new PDF();
+
+          let html = doc.titre+': <br/>'
+              + doc.auteur+' <br/>'
+              + doc.chapeau +' <br/>'
+              + doc.description1;
+
+
+          renderer.setCSS('http://pages/listarticle.ejs');
+          renderer.build(html);
+
+          return res.pdfFromHTML({ // express-pdf kicks in
+              filename: doc._id.toString() + '.pdf',
+              htmlContent: renderer.html
+          });
+      } else {
+          return res.send('article not found');
+      }
+  });
+
 };
 
 

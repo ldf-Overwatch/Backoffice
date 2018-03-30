@@ -1,11 +1,7 @@
 let mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
-
-
 // Paramètres de saisie automatique le user, passoword
-
 
 passport.use(new LocalStrategy(
     function(username, password, done) {

@@ -40,6 +40,7 @@ module.exports = function(app) {
     admin.get('/article/delete/:articleId' , siteArticle.deleteearticle);//supprimier
     admin.get('/article/findOne/:articleId' ,siteArticle.findidartcile);//modifier
     app.get('/articles', siteArticle.findAll);
+    app.get('/pdf/article/:id', siteArticle.findId);
 
     let recover = app.controllers.recover;
     admin.post('/article/search',recover.findSearch);
